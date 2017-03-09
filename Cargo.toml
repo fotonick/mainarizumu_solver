@@ -1,6 +1,6 @@
 [package]
 name = "mainarizumu_solve"
 version = "0.1.0"
-authors = ["Nickolas Fotopoulos <nickolas.fotopoulos@synaptics.com>"]
+authors = ["Nickolas Fotopoulos <nickolas.fotopoulos@gmail.com>"]
 
 [dependencies]
