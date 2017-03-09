@@ -23,8 +23,8 @@ fn main() {
             println!("Solved! Unique solution:\n{:?}", board);
             break;
         }
-        if board.is_inconsistent() {
-            println!("Inconsistent constraints! Final state:\n{:?}", board);
+        if board.is_unsatisfiable() {
+            println!("Unsatisfiable constraints! Final state:\n{:?}", board);
             break;
         }
         if board == prev_board {

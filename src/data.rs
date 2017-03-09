@@ -39,7 +39,7 @@ impl Board {
         self.allowed.iter().all(|x| x.count_ones() == 1)
     }
 
-    pub fn is_inconsistent(&self) -> bool {
+    pub fn is_unsatisfiable(&self) -> bool {
         self.allowed.iter().any(|x| x.count_ones() == 0)
     }
 }
