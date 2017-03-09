@@ -7,7 +7,7 @@ pub fn propagate_constraints(board : &mut Board, board_constraints : &BoardConst
 }
 
 fn propagate_unique_rowcol(mut board : &mut Board) {
-    for (offset, allowed_bitmask) in board.allowed.clone().iter().enumerate() {
+    for (offset, allowed_bitmask) in board.allowed.clone().iter().enumerate() {  // FIXME: could make unsafe optimization
         if cell_is_solved(allowed_bitmask) {
             uniquify_value(&mut board, offset, allowed_bitmask);
         }
