@@ -2,6 +2,7 @@ mod data;
 mod csv_board_parser;
 mod solver;
 
+use std::env;
 use std::fs::File;
 use std::io::BufReader;
 
@@ -9,7 +10,9 @@ use csv_board_parser::parse_csv_board;
 use solver::propagate_constraints;
 
 fn main() {
-    let f = File::open("boards/test_board_06.csv").expect("could not open file");
+    let filename = env::args().nth(1).expect("Expected CSV board file argument");
+    println!("{}", filename);
+    let f = File::open(filename).expect("could not open file");
     let br = BufReader::new(f);
     let (mut board, board_constraints) = parse_csv_board(br).expect("couldn't parse game board");
     println!("{:?}", board);
