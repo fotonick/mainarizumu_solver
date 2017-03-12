@@ -15,21 +15,23 @@ fn main() {
     let f = File::open(filename).expect("could not open file");
     let br = BufReader::new(f);
     let (mut board, board_constraints) = parse_csv_board(br).expect("couldn't parse game board");
-    println!("{:?}", board);
+    println!("Initial board: {:?}", board);
+    println!("Constraints: {:?}", board_constraints);
     loop {
         let prev_board = board.clone();  // FIXME: circular buffer
         propagate_constraints(&mut board, &board_constraints);
-        if board.is_solved() {
-            println!("Solved! Unique solution:\n{:?}", board);
-            break;
-        }
-        if board.is_unsatisfiable() {
-            println!("Unsatisfiable constraints! Final state:\n{:?}", board);
-            break;
-        }
+        println!("board: {:?}", board);
         if board == prev_board {
-            println!("Incompletely constrained. Final state:\n{:?}", board);
             break;
         }
+    }
+    if board.is_solved() {
+        println!("Solved! Unique solution.");
+    }
+    else if board.is_unsatisfiable() {
+        println!("Unsatisfiable constraints!");
+    }
+    else {
+        println!("Incompletely constrained.");
     }
 }
