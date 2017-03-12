@@ -33,6 +33,11 @@ pub fn parse_csv_board<T : BufRead>(s : T) -> Option<(Board, BoardConstraints)> 
         // Even rows are either numbers or horizontal constraints.
         {
             let row_string = lines_iter.next().expect("can't read line").expect("can't read line 2");
+            if row_string.chars().filter(|&c| c == ',').count() != 2 * n - 2
+            {
+                println!("Error: Not enough commas in row {}.", row + 1);
+                return None;
+            }
             let mut row_field_iter = row_string.split(',');
             for col in 0..(n - 1) {
                 let offset = row_offset + col;
