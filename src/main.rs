@@ -29,7 +29,7 @@ fn main() {
         println!("Solved! Unique solution.");
     }
     else if board.is_unsatisfiable() {
-        println!("Unsatisfiable constraints!");
+        println!("Unsatisfiable constraints.");
     }
     else {
         println!("Incompletely constrained.");

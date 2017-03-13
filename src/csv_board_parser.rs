@@ -20,6 +20,8 @@ fn match_vertical_constraint(row_field : &str) -> PairwiseConstraint {
     }
 }
 
+// I'm so sorry. This is gross with even-odd interleaving on both rows and cols.
+// Looking forward to StepBy stabilizing in coming versions of rust.
 pub fn parse_csv_board<T : BufRead>(s : T) -> Option<(Board, BoardConstraints)> {
     let mut lines_iter = s.lines();
     let first_line = lines_iter.next().expect("can't read first line").expect("can't read first line 2");
