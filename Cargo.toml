@@ -1,5 +1,5 @@
 [package]
-name = "mainarizumu_solve"
+name = "mainarizumu_solver"
 version = "0.1.0"
 authors = ["Nickolas Fotopoulos <nickolas.fotopoulos@gmail.com>"]
 

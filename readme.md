@@ -16,7 +16,7 @@ Use
 For a given board, expressed in a CSV format, the solver will repeatedly apply the puzzle constraints to whittle down the possibilities in each cell until the board no longer changes. At that point, a puzzle is either uniquely specified (solved), impossible to satisfy, or under-constrained.
 
     $ cargo run boards/test_board_01.csv
-       Compiling mainarizumu_solve v0.1.0 (file:///Users/foton/temp/mainarizumu_solve)
+       Compiling mainarizumu_solver v0.1.0 (file:///Users/foton/temp/mainarizumu_solver)
         Finished debug [unoptimized + debuginfo] target(s) in 2.6 secs
          Running `target/debug/mainarizumu_solve boards/test_board_01.csv`
     boards/test_board_01.csv
