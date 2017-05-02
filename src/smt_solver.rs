@@ -119,7 +119,7 @@ pub fn smt_solve_board(board_constraints : &BoardConstraints) {
         print_2d(&vals, n);
 
         // Is the solution unique?
-        const MAX_SOLUTIONS : u64 = 2;
+        const MAX_SOLUTIONS : u64 = 10;
         let num_solutions = count_solutions_up_to(MAX_SOLUTIONS, &grid, &model, &solver);
         if num_solutions == 1 {
             println!("Solution is unique");
