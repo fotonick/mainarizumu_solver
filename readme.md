@@ -1,7 +1,7 @@
 Mainarizumu solver
 ==================
 
-This is a solver for [Mainarizumu](en.wikipedia.org/wiki/Mainarizumu) puzzles. The input and output formats are very basic and not very human-friendly.
+This is a solver for [Mainarizumu](en.wikipedia.org/wiki/Mainarizumu) puzzles. The input and output formats are very basic and not very human-friendly. The program works by translating the game rules into assertions for the [Z3 Theorem Prover](https://github.com/Z3Prover/z3), then running the solver.
 
 Build
 -----
@@ -13,32 +13,21 @@ With [Rust](www.rust-lang.org/en-US/) installed (I prefer the [rustup](www.rustu
 Use
 ---
 
-For a given board, expressed in a CSV format, the solver will repeatedly apply the puzzle constraints to whittle down the possibilities in each cell until the board no longer changes. At that point, a puzzle is either uniquely specified (solved), impossible to satisfy, or under-constrained.
+For a given board, expressed in a CSV format, it will show one solution but
+solve for up to 10 more so that you have an indication of how unique the
+solution is.
 
-    $ cargo run boards/test_board_01.csv
-       Compiling mainarizumu_solver v0.1.0 (file:///Users/foton/temp/mainarizumu_solver)
-        Finished debug [unoptimized + debuginfo] target(s) in 2.6 secs
-         Running `target/debug/mainarizumu_solve boards/test_board_01.csv`
-    boards/test_board_01.csv
-    Initial board: Board { n: 2, allowed: [3, 3, 3, 3] }
-    Constraints: BoardConstraints { vertical: [Unconstrained, Unconstrained, Unconstrained, Unconstrained], horizontal: [LessThan, Unconstrained, Unconstrained, Unconstrained] }
-    board: Board { n: 2, allowed: [1, 2, 3, 3] }
-    board: Board { n: 2, allowed: [1, 2, 2, 1] }
-    board: Board { n: 2, allowed: [1, 2, 2, 1] }
-    Solved! Unique solution.
-
-Intepreting output
-------------------
-
-**Bitmasks**: The solver shows the allowed possibilities for each cell on each iteration of applying constraints. Note that the cells of the allowed array are bitmasks. For example, a value of 25 implies that 1, 4, and 5 are allowed, which you can see from where the 1s are in its binary representation:
-
-     decimal: 25
-     binary:  00011001
-     values:  87654321
-
-**Rows and columns**: The `n: 2` indicates that the size of the board is 2x2. Only square boards are supported. The grids are printed as 1D arrays, which you should interpret in row-major order. That is, it's what you'd get reading a board like English—left to right, line by line.
-
-**Constraints**: The constraints are zero-padded to match the size of the whole board, which wastes space, but makes indexing easy. Vertical constraints apply to the constraint index and down one. Horizontal constraints apply to the constraint index and right one.
+    $ cargo run boards/test_board_12.csv
+        Finished dev [unoptimized + debuginfo] target(s) in 0.0 secs
+         Running `target/debug/mainarizumu_solver boards/test_board_12.csv`
+    boards/test_board_12.csv
+    526314
+    435261
+    163452
+    251643
+    642135
+    314526
+    There are 4 solutions
 
 License
 -------
