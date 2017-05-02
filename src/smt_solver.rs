@@ -43,11 +43,10 @@ pub fn smt_solve_board(board : &Board, board_constraints : &BoardConstraints) {
     }
 
     // Set known values
-    for (i, mask) in board.allowed.iter().enumerate() {
-        if mask.is_power_of_two() {
-            let val = mask.trailing_zeros() + 1;  // e.g. 0b100 -> 3
+    for (i, &val) in board.allowed.iter().enumerate() {
+        if val != 0 {
             let smt_val = ctx.from_u64(val as u64);
-            solver.assert(&grid[i]._eq(&smt_val))
+            solver.assert(&grid[i]._eq(&smt_val));
         }
     }
 
