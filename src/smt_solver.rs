@@ -46,10 +46,6 @@ pub fn smt_solve_board(board_constraints : &BoardConstraints) {
     let cfg = Config::new();
     let ctx = Context::new(&cfg);
 
-    // Define some constants
-    let zero = ctx.from_u64(0);
-    let en = ctx.from_u64(n as u64);
-
     // Define grid of vars
     let mut grid = Vec::new();
     for i in 0..n {
@@ -60,6 +56,8 @@ pub fn smt_solve_board(board_constraints : &BoardConstraints) {
     }
 
     // Bound vars to range 1..n
+    let zero = ctx.from_u64(0);
+    let en = ctx.from_u64(n as u64);
     let solver = Solver::new(&ctx);
     for v in grid.iter() {
         solver.assert(&v.gt(&zero));
