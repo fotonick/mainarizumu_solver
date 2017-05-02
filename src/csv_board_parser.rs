@@ -44,12 +44,12 @@ pub fn parse_csv_board<T : BufRead>(s : T) -> Option<(Board, BoardConstraints)> 
             for col in 0..(n - 1) {
                 let offset = row_offset + col;
                 let row_field = row_field_iter.next().expect("ran out of columns while looking for number");
-                board.allowed[offset] = if row_field == "" { unconstrained_digit } else { u64::from_str(&row_field).expect("could not parse number constraint") };
+                board.allowed[offset] = if row_field == "" { unconstrained_digit } else { 1u64 << (u64::from_str(&row_field).expect("could not parse number constraint") - 1) };
                 let row_field_2 = row_field_iter.next().expect("ran out of columns while looking for row constraint");
                 board_constraints.horizontal[offset] = match_horizontal_constraint(row_field_2);
             }
             let row_field = row_field_iter.next().expect("ran out of columns while looking for number");
-            board.allowed[row_offset + n - 1] = if row_field == "" { unconstrained_digit } else { u64::from_str(&row_field).expect("could not parse number constraint") };
+            board.allowed[row_offset + n - 1] = if row_field == "" { unconstrained_digit } else { 1u64 << (u64::from_str(&row_field).expect("could not parse number constraint") - 1) };
         }
         // Odd rows are vertical constraints only.
         {
@@ -74,12 +74,12 @@ pub fn parse_csv_board<T : BufRead>(s : T) -> Option<(Board, BoardConstraints)> 
         for col in 0..(n - 1) {
             let offset = row_offset + col;
             let row_field = row_field_iter.next().expect("ran out of columns while looking for number");
-            board.allowed[offset] = if row_field == "" { unconstrained_digit } else { u64::from_str(&row_field).expect("could not parse number constraint") };
+            board.allowed[offset] = if row_field == "" { unconstrained_digit } else { 1u64 << (u64::from_str(&row_field).expect("could not parse number constraint") - 1) };
             let row_field_2 = row_field_iter.next().expect("ran out of columns while looking for row constraint");
             board_constraints.horizontal[offset] = match_horizontal_constraint(row_field_2);
         }
         let row_field = row_field_iter.next().expect("ran out of columns while looking for number");
-        board.allowed[row_offset + n - 1] = if row_field == "" { unconstrained_digit } else { u64::from_str(&row_field).expect("could not parse number constraint") };
+        board.allowed[row_offset + n - 1] = if row_field == "" { unconstrained_digit } else { 1u64 << (u64::from_str(&row_field).expect("could not parse number constraint") - 1) };
     }
     return Some((board, board_constraints))
 }
