@@ -3,7 +3,7 @@ use std::str;
 use std::vec::Vec;
 use z3::*;
 
-use data::{Board, BoardConstraints, PairwiseConstraint};
+use data::{BoardConstraints, PairwiseConstraint};
 
 fn make_vec_of_references<T>(v : &[T]) -> Vec<&T> {
     let outvec : Vec<&T> = v.iter().map(|x| x).collect();
@@ -17,8 +17,8 @@ fn print_2d(v : &[u64], cols : usize) {
     }
 }
 
-pub fn smt_solve_board(board : &Board, board_constraints : &BoardConstraints) {
-    let n = board.n;
+pub fn smt_solve_board(board_constraints : &BoardConstraints) {
+    let n = board_constraints.n;
     let cfg = Config::new();
     let ctx = Context::new(&cfg);
 
@@ -43,7 +43,7 @@ pub fn smt_solve_board(board : &Board, board_constraints : &BoardConstraints) {
     }
 
     // Set known values
-    for (i, &val) in board.allowed.iter().enumerate() {
+    for (i, &val) in board_constraints.known.iter().enumerate() {
         if val != 0 {
             let smt_val = ctx.from_u64(val as u64);
             solver.assert(&grid[i]._eq(&smt_val));

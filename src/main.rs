@@ -17,6 +17,6 @@ fn main() {
     println!("{}", filename);
     let f = File::open(filename).expect("could not open file");
     let br = BufReader::new(f);
-    let (board, board_constraints) = parse_csv_board(br).expect("couldn't parse game board");
-    smt_solve_board(&board, &board_constraints);
+    let board_constraints = parse_csv_board(br).expect("couldn't parse game board");
+    smt_solve_board(&board_constraints);
 }
