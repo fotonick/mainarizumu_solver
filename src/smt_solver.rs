@@ -17,6 +17,30 @@ fn print_2d(v : &[u64], cols : usize) {
     }
 }
 
+// Generate an expression that the solution is not allowed to be the one in model.
+fn not_this_model<'a>(grid : &'a [Ast], model : &'a Model) -> Ast<'a> {
+    let assignments : Vec<_> = grid.iter().map(|a| {
+        let smt_val = model.eval(a).unwrap();
+        a._eq(&smt_val)
+    }).collect();
+    let assign_refs = make_vec_of_references(&assignments);
+    assign_refs[0].and(&assign_refs[1..]).not()
+}
+
+fn count_solutions_up_to(max_count : u64, grid : &[Ast], initial_model : &Model, solver : &Solver) -> u64 {
+    let mut count : u64 = 1;  // already found one solution
+    solver.assert(&not_this_model(grid, initial_model));
+    let mut sat = solver.check();
+    if sat { count += 1; }
+    while sat && count < max_count {
+        let model = solver.get_model();
+        solver.assert(&not_this_model(grid, &model));
+        sat = solver.check();
+        if sat { count += 1; }
+    }
+    count
+}
+
 pub fn smt_solve_board(board_constraints : &BoardConstraints) {
     let n = board_constraints.n;
     let cfg = Config::new();
@@ -89,12 +113,23 @@ pub fn smt_solve_board(board_constraints : &BoardConstraints) {
         }
     }
 
-    // Find solution
+    // Solve
     if solver.check() {
-        println!("Satisfiable");
+        // Print solution
         let model = solver.get_model();
         let vals : Vec<u64> = grid.iter().map(|v| model.eval(v).unwrap().as_u64().unwrap()).collect();
         print_2d(&vals, n);
+
+        // Is the solution unique?
+        const MAX_SOLUTIONS : u64 = 2;
+        let num_solutions = count_solutions_up_to(MAX_SOLUTIONS, &grid, &model, &solver);
+        if num_solutions == 1 {
+            println!("Solution is unique");
+        } else if num_solutions < MAX_SOLUTIONS {
+            println!("There are {} solutions", num_solutions);
+        } else {
+            println!("There are at least {} solutions", num_solutions);
+        }
     }
     else {
         println!("Unsatisfiable");
