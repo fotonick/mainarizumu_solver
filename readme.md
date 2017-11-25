@@ -1,7 +1,7 @@
 Mainarizumu solver
 ==================
 
-This is a solver for [Mainarizumu](en.wikipedia.org/wiki/Mainarizumu) puzzles. The input and output formats are very basic and not very human-friendly. The program works by translating the game rules into assertions for the [Z3 Theorem Prover](https://github.com/Z3Prover/z3), then running the solver.
+This is a solver for [Mainarizumu](https://en.wikipedia.org/wiki/Mainarizumu) puzzles. The input and output formats are very basic and not very human-friendly. The program works by translating the game rules into assertions for the [Z3 Theorem Prover](https://github.com/Z3Prover/z3), then running the solver.
 
 Build
 -----
